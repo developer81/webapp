@@ -1,0 +1,115 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "fiorinet.template",
+        "dataSources": {
+            "mainService": {
+                "uri": "https://services.odata.org/V2/Northwind/Northwind.svc/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "Título da Aplicação",
+        "description": "Descrição",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "lojaRemote": {
+                "uri": "/sap/ZMONITORVENDAS_U569_SRV/?sap-client=200",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "@sap/ux-app-migrator:freestyle",
+            "version": "1.12.0",
+            "toolsId": "b1ba6a9a-d8ed-4a6e-9258-ecdad4269492"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "fiorinet.template.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.60",
+            "libs": {
+                "sap.m": {}
+            }
+        },
+        "models": {
+            "": {
+                "dataSource": "lojaRemote"
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "fiorinet.template.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "transition": "slide",
+                "async": true,
+                "bypassed": {
+                    "target": "notFound"
+                }
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "appHome",
+                    "target": "home"
+                },
+                {
+                    "pattern": "detalhe/{idPath}",
+                    "name": "detailPage",
+                    "target": "detail"
+                }
+            ],
+            "targets": {
+                "home": {
+                    "viewId": "home",
+                    "viewName": "Worklist",
+                    "viewLevel": 1
+                },
+                "notFound": {
+                    "viewId": "notFound",
+                    "viewName": "NotFound",
+                    "transition": "show"
+                },
+                "detail": {
+                    "viewId": "detalhes",
+                    "viewName": "Object",
+                    "transition": "slide"
+                }
+            }
+        },
+        "data": {
+            "type": "sap.ui.model.odata.v2.ODataModel",
+            "dataSource": "mainService",
+            "preload": true,
+            "settings": {
+                "useBatch": false
+            }
+        }
+    }
+}
